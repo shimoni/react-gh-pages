@@ -7,9 +7,9 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  componentDidMount(){
-  	this.props.fetchBooksRedux()
-  }
+  // componentDidMount(){
+  // 	this.props.fetchBooksRedux()
+  // }
   render() {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     store.dispatch(bookFetch());
