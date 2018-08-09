@@ -16,6 +16,7 @@ export const bookFetch = () => {
               title: book.volumeInfo.title,
               modal: true,
               addModal: false,
+              nestedModal: false,
               position: counter
             });
             counter = counter + 1;

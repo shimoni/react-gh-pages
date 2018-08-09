@@ -22,7 +22,8 @@ class bookAdd extends Component {
     let myBooksList = Object.assign([],this.props.books.booksList);
     let thisBook = this.props.bookCard;
     thisBook['position'] = myBooksList.length;
-
+    thisBook['addModal'] = false;
+    thisBook['modal'] = false;
     thisBook['id'] = this.makeId();
     myBooksList.push(thisBook);
     this.props.bookSave(myBooksList);

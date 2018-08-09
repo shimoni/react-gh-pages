@@ -17,6 +17,14 @@ class BookCardEdit extends Component {
     this.closeModal();
   }
 
+  openNestedModal(){
+    this.props.bookUpdate({ prop: 'nestedModal', value: true });
+  }
+
+  closeNestedModal(){
+    this.props.bookUpdate({ prop: 'nestedModal', value: false });
+  }
+
   deleteBook() {
     let myBooksList = Object.assign([],this.props.books.booksList);
     let thisBook = this.props.bookCard;
@@ -25,11 +33,11 @@ class BookCardEdit extends Component {
         myBooksList[i] = {...myBooksList[i], position: i };
     }
     this.props.bookDelete(myBooksList);
-    this.closeModal();
+    this.closeNestedModal();
   }
 
   render() {
-    const { title, authorName, publishedDate, id, modal } = this.props.bookCard;
+    const { title, authorName, publishedDate, id, modal, nestedModal } = this.props.bookCard;
     return (
         <Modal isOpen={modal} className={this.props.className} >
           <ModalHeader>Edit book</ModalHeader>
@@ -42,10 +50,18 @@ class BookCardEdit extends Component {
               <Label >Published date</Label>
               <Input valid={true} type="date" onChange={(e) => this.props.bookUpdate({ prop: 'publishedDate', value: e.target.value })} placeholder ={publishedDate}/>
             </Form>
+            <Modal isOpen={nestedModal} className={this.props.className}>
+              <ModalHeader>Delete book</ModalHeader>
+              <ModalBody>Are you sure?</ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.deleteBook.bind(this)}>Yes</Button>{' '}
+                <Button color="secondary" onClick={this.closeNestedModal.bind(this)}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
           </ModalBody>
           <ModalFooter>
             <Button color="success" onClick={this.saveBook.bind(this)}>Save book</Button>{' '}
-            <Button color="danger" onClick={this.deleteBook.bind(this)}>Delete book</Button>
+            <Button color="danger" onClick={this.openNestedModal.bind(this)}>Delete book</Button>
             <Button color="secondary" onClick={this.closeModal.bind(this)}>Cancel</Button>
           </ModalFooter>
         </Modal>

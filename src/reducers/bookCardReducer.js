@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   publishedDate: '',
   title: '',
   modal: false,
-  addModal: false
+  addModal: false,
+  nestedModal: false
  };
 
 export default (state = INITIAL_STATE, action) => {
@@ -13,7 +14,7 @@ export default (state = INITIAL_STATE, action) => {
       case "BOOK_UPDATE":
         return { ...state,[action.payload.prop]: action.payload.value };
       case "ADD_BOOK":
-        return {...INITIAL_STATE, addModal: true };  
+        return {...INITIAL_STATE, addModal: true };
       default:
         return state;
     }

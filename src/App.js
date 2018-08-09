@@ -5,13 +5,9 @@ import logo from './logo.svg';
 import './App.css';
 import renderIf from './functions/renderIf';
 import BookCard from './components/BookCard';
-import { Row, Card, CardTitle, Button } from 'reactstrap';
+import { Row, Card, CardTitle, Button, CardImg, CardImgOverlay } from 'reactstrap';
 import BookCardEdit from './components/BookCardEdit';
 import AddBook from './components/AddBook';
-
-const json = {
-  1:{title: 'malik', authorName: 'malkum', modal: false, publishedDate:1/1/2014},
-  2:{title: 'malikkk', authorName: 'malkum', modal: false, publishedDate:1/1/2014}};
 
 class App extends Component {
 
@@ -25,19 +21,19 @@ class App extends Component {
   render() {
     return (
         <div>
-          <Card body>
-            <CardTitle >
-              My Books
-              <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
-            </CardTitle>
-            <Row>
-              <AddBook />
-              <BookCardEdit />
-              {console.log('state', this.props)}
-              {renderIf(this.props.booksList!== [] ,
-                  this.props.booksList.map(item =><BookCard key={item.id} book={item}/> ))
-              }
-            </Row>
+          <Card body fluid >
+              <CardTitle size='xs' >
+                My Books
+                <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
+              </CardTitle>
+              <Row>
+                <AddBook />
+                <BookCardEdit />
+                {console.log('state', this.props)}
+                {renderIf(this.props.booksList!== [] ,
+                    this.props.booksList.map(item =><BookCard key={item.id} book={item}/> ))
+                }
+              </Row>
           </Card>
         </ div>
     );
