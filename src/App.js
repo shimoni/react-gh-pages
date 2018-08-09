@@ -1,32 +1,52 @@
 import React, { Component } from 'react';
-import { Provider, connect } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
-import reducers from './reducers';
+import { connect } from 'react-redux';
+import { bookFetch, bookCreate } from './actions';
 import logo from './logo.svg';
 import './App.css';
+import renderIf from './functions/renderIf';
+import BookCard from './components/BookCard';
+import { Row, Card, CardTitle, Button } from 'reactstrap';
+import BookCardEdit from './components/BookCardEdit';
+import AddBook from './components/AddBook';
+
+const json = {
+  1:{title: 'malik', authorName: 'malkum', modal: false, publishedDate:1/1/2014},
+  2:{title: 'malikkk', authorName: 'malkum', modal: false, publishedDate:1/1/2014}};
 
 class App extends Component {
-  // componentDidMount(){
-  // 	this.props.fetchBooksRedux()
-  // }
+
+  onAddBookPress() {
+    this.props.bookCreate();
+  }
+
+  componentDidMount(){
+    this.props.bookFetch();
+  }
   render() {
-    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
-    store.dispatch(bookFetch());
     return (
-      <Provider store={store}>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to </h1>
-          </header>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
-        </div>
-      </Provider>
+        <div>
+          <Card body>
+            <CardTitle >
+              My Books
+              <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
+            </CardTitle>
+            <Row>
+              <AddBook />
+              <BookCardEdit />
+              {console.log('state', this.props)}
+              {renderIf(this.props.booksList!== [] ,
+                  this.props.booksList.map(item =><BookCard key={item.id} book={item}/> ))
+              }
+            </Row>
+          </Card>
+        </ div>
     );
   }
 }
 
-export default connect(null, {bookFetch})(App);
+const mapStateToProps = ({ books }) => {
+  const { booksList, loading, error } = books;
+  return { booksList, loading, error };
+};
+
+export default connect(mapStateToProps, {bookFetch, bookCreate})(App);
