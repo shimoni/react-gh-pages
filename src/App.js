@@ -21,12 +21,12 @@ class App extends Component {
   render() {
     return (
         <div>
-          <Card body>
+          <Card container fluid body>
               <CardTitle >
                 My Books
                 <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
               </CardTitle>
-              <Row>
+              <Row container fluid>
                 <AddBook />
                 <BookCardEdit />
 
