@@ -24,7 +24,7 @@ class App extends Component {
           <AddBook />
           <BookCardEdit />
           <RingLoader loaderStyle={{marginLeft: 'auto', marginRight: 'auto'}} size={200} color={'#123abc'} loading={this.props.loading} />
-          <Card >
+          <Card body >
               <CardTitle >
                 My Books
                 <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
