@@ -21,15 +21,15 @@ class App extends Component {
   render() {
     return (
         <div>
-          <Card container fluid body>
+          <AddBook />
+          <BookCardEdit />
+          <RingLoader loaderStyle={{marginLeft: 'auto', marginRight: 'auto'}} size={200} color={'#123abc'} loading={this.props.loading} />
+          <Card >
               <CardTitle >
                 My Books
                 <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
               </CardTitle>
-              <Row container fluid>
-                <AddBook />
-                <BookCardEdit />
-
+              <Row>
                 {renderIf(this.props.booksList!== [] ,
                     this.props.booksList.map(item =><BookCard key={item.id} book={item}/> ))
                 }
