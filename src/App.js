@@ -23,11 +23,11 @@ class App extends Component {
         <div>
           <AddBook />
           <BookCardEdit />
-          <RingLoader loaderStyle={{marginLeft: 'auto', marginRight: 'auto'}} size={200} color={'#123abc'} loading={this.props.loading} />
           <Card body >
               <CardTitle >
                 My Books
                 <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
+                <RingLoader loaderStyle={{marginLeft: 'auto', marginRight: 'auto'}} size={200} color={'#123abc'} loading={this.props.loading} />
               </CardTitle>
               <Row>
                 {renderIf(this.props.booksList!== [] ,
