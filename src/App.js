@@ -25,7 +25,6 @@ class App extends Component {
               <CardTitle >
                 My Books
                 <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
-              {//  <RingLoader loaderStyle={{marginLeft: 'auto', marginRight: 'auto'}} size={200} color={'#123abc'} loading={this.props.loading} />}
               </CardTitle>
               <Row>
                 <AddBook />
