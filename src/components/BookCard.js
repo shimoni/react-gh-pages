@@ -41,8 +41,8 @@ class BookCard extends Component {
   render() {
     const { title, authorName, publishedDate } = this.props.book;
     return (
-       <Col xm="auto" xs="auto">
-         <Card body>
+       <Col xm="3" xs="3">
+         <Card >
           <CardImg width="100%" src={background} />
           <CardImgOverlay>
           <CardTitle>
