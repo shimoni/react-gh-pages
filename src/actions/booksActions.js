@@ -6,7 +6,9 @@ export const bookFetch = () => {
     return fetch(`https://www.googleapis.com/books/v1/volumes?q=react`)
        .then(response => response.json())
        .then(response =>  {
-          (myBooks.length > 0) ? myBooks = [] : myBooks;
+          if(myBooks.length > 0){
+            myBooks = [];
+          }
           let counter = 0;
           response.items.forEach( (book) => {
             myBooks.push({

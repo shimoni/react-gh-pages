@@ -37,7 +37,6 @@ class BookCardEdit extends Component {
     let formDate = new Date(this.props.bookCard.publishedDate);
     let today = new Date();
     if(this.props.bookCard.publishedDate == '' || formDate > today){
-      console.log('not a date')
       this.setState({
         validDate: false
       });
@@ -87,7 +86,6 @@ class BookCardEdit extends Component {
         let myBooksList = Object.assign([],this.props.books.booksList);
         let thisBook = this.props.bookCard;
         myBooksList[thisBook.position] = thisBook;
-        console.log('myBooksList',myBooksList);
         this.props.bookSave(myBooksList);
         this.closeModal();
       }
@@ -136,7 +134,7 @@ class BookCardEdit extends Component {
 
 
   render() {
-    const { title, authorName, publishedDate, id, modal, nestedModal } = this.props.bookCard;
+    const { modal, nestedModal } = this.props.bookCard;
     return (
         <Modal isOpen={modal} className={this.props.className} >
           <ModalHeader>Edit book</ModalHeader>

@@ -28,7 +28,6 @@ class bookAdd extends Component {
     for( let i = 0 ; i < myBooksList.length ; i++){
       if (myBooksList[i].title == editedTitle && editedTitle != ''){
         titleExist = true;
-        console.log('find title');
       }
     }
     return titleExist;
@@ -42,7 +41,6 @@ class bookAdd extends Component {
       this.setState({
         validDateAdd: false
       });
-      console.log('first');
       validationAdd = false;
     }
     else{
@@ -54,7 +52,6 @@ class bookAdd extends Component {
       this.setState({
         titleExistAdd: false
       });
-      console.log('second');
       validationAdd = false;
     }
     else{
@@ -66,7 +63,6 @@ class bookAdd extends Component {
       this.setState({
         validAuthorsAdd: false
       });
-      console.log('third');
       validationAdd = false;
     }
     else{
@@ -79,7 +75,6 @@ class bookAdd extends Component {
       this.setState({
         validTitleAdd: false
       });
-      console.log('fourth');
       validationAdd = false;
     }
     else{
@@ -87,7 +82,6 @@ class bookAdd extends Component {
         validTitleAdd: true
       });
     }
-    console.log('validationAdd',validationAdd);
       if(validationAdd){
         let myBooksList = Object.assign([],this.props.books.booksList);
         let thisBook = this.props.bookCard;
@@ -97,7 +91,6 @@ class bookAdd extends Component {
         thisBook['nestedModal'] = false;
         thisBook['id'] = this.makeId();
         myBooksList.push(thisBook);
-        console.log('mybook listtt',myBooksList);
         this.props.bookSave(myBooksList);
         this.closeAddModal();
       }
@@ -105,13 +98,13 @@ class bookAdd extends Component {
 
   allLetter(inputtxt) {
       let letters = /^[ A-Za-z,.]+$/;
+      if(inputtxt == ''){
+        return false;
+      }
       if(inputtxt.match(letters)){
         return true;
       }
       else{
-        return false;
-      }
-      if(inputtxt == ''){
         return false;
       }
   }
@@ -125,7 +118,7 @@ class bookAdd extends Component {
   }
 
   render() {
-    const { title, authorName, publishedDate, id, addModal } = this.props.bookCard;
+    const { addModal } = this.props.bookCard;
     return (
         <Modal isOpen={addModal} className={this.props.className} >
           <ModalHeader>Add book</ModalHeader>

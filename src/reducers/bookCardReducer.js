@@ -10,7 +10,6 @@ const INITIAL_STATE = {
  };
 
 export default (state = INITIAL_STATE, action) => {
-    console.log('my action', action);
     switch (action.type) {
       case "BOOK_EDIT":
         return {...state, modal: true, authorName: '', publishedDate: '', title: '' }
