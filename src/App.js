@@ -30,7 +30,7 @@ class App extends Component {
               <Row>
                 <AddBook />
                 <BookCardEdit />
-                <RingLoader loaderStyle={{marginLeft: 'auto', marginRight: 'auto'}} size={300} color={'#123abc'} loading={this.props.loading} />
+                <RingLoader loaderStyle={{marginLeft: 'auto', marginRight: 'auto'}} size={200} color={'#123abc'} loading={this.props.loading} />
                 {renderIf(this.props.booksList!== [] ,
                     this.props.booksList.map(item =><BookCard key={item.id} book={item}/> ))
                 }
