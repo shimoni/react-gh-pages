@@ -21,8 +21,8 @@ class App extends Component {
   render() {
     return (
         <div>
-          <Card body fluid >
-              <CardTitle size='xs' >
+          <Card body>
+              <CardTitle >
                 My Books
                 <Button className="float-right" onClick={this.onAddBookPress.bind(this)} >Add book</Button>
               </CardTitle>

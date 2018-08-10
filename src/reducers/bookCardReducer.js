@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   authorName: '',
   publishedDate: '',
   title: '',
+  position: '',
   modal: false,
   addModal: false,
   nestedModal: false
@@ -11,6 +12,8 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     console.log('my action', action);
     switch (action.type) {
+      case "BOOK_EDIT":
+        return {...state, modal: true, authorName: '', publishedDate: '', title: '' }
       case "BOOK_UPDATE":
         return { ...state,[action.payload.prop]: action.payload.value };
       case "ADD_BOOK":

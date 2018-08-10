@@ -32,6 +32,12 @@ export const bookUpdate = ({ prop, value }) => {
   };
 };
 
+export const bookEdit = () => {
+  return {
+    type: "BOOK_EDIT",
+  };
+};
+
 export const bookSave = (booksList) => {
   return {
     type: "BOOK_LIST_UPDATE",

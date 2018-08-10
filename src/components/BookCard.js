@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Card, Button, CardTitle, CardText, Col, CardImgOverlay, CardImg } from 'reactstrap';
 import { connect } from 'react-redux';
-import { bookUpdate } from './../actions';
+import { bookUpdate, bookEdit } from './../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import background from './../background.jpg';
@@ -10,10 +10,11 @@ import background from './../background.jpg';
 class BookCard extends Component {
 
   onEditPress() {
-    _.each(this.props.book, (value, prop) => {
-      this.props.bookUpdate({ prop, value });
-    });
-    this.props.bookUpdate({ prop: 'modal', value: true });
+     _.each(this.props.book, (value, prop) => {
+       this.props.bookUpdate({ prop, value });
+     });
+    // this.props.bookUpdate({ prop: 'modal', value: true });
+    this.props.bookEdit();
   }
 
    toTitleCase(str) {
@@ -23,6 +24,8 @@ class BookCard extends Component {
     });
   }
   renderAuthors(authors){
+    if(!Array.isArray(authors))
+      return authors+'.';
     let authorsForRender = '';
     for (let i =0 ; i < authors.length ; i++){
       if(i == authors.length - 1){
@@ -38,20 +41,19 @@ class BookCard extends Component {
   render() {
     const { title, authorName, publishedDate } = this.props.book;
     return (
-       <Col sm="3">
-         <Card fluid >
-         <CardImg width="100%" src={background} />
-         <CardImgOverlay>
-           <CardTitle>
-
-              <Button className="float-right" color="light" onClick={this.onEditPress.bind(this)}>
-                <FontAwesomeIcon icon={faPencilAlt} />
-              </Button>
+       <Col xs="auto">
+         <Card>
+          <CardImg width="100%" src={background} />
+          <CardImgOverlay>
+          <CardTitle>
+            <Button className="float-right" color="light" onClick={this.onEditPress.bind(this)}>
+              <FontAwesomeIcon icon={faPencilAlt} />
+            </Button>
               {this.toTitleCase(title)}
            </CardTitle>
            <CardText>
-            Authors: <br />
-            {this.renderAuthors(authorName)}
+              Authors: <br />
+              {this.renderAuthors(authorName)}
            </CardText>
            <CardText>
             <small className="text-muted">Published date: {publishedDate}</small>
@@ -68,4 +70,4 @@ const mapStateToProps = (state) => {
   return { authorName, publishedDate, title };
 };
 
-export default connect(mapStateToProps, {bookUpdate})(BookCard);
+export default connect(mapStateToProps, {bookUpdate, bookEdit})(BookCard);

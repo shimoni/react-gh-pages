@@ -1,20 +1,98 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Label, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Label, Input, FormFeedback } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bookUpdate, bookSave, bookDelete } from './../actions';
 
 class BookCardEdit extends Component {
-
+  state = {
+    validTitle: true,
+    validAuthors: true,
+    titleExist: true,
+    validDate: true
+  }
   closeModal() {
     this.props.bookUpdate({ prop: 'modal', value: false });
+    this.setState({
+      validTitle: true,
+      validAuthors: true,
+      titleExist: true,
+      validDate: true
+    });
+  }
+
+  checkIfTitleExist(){
+    let myBooksList = Object.assign([],this.props.books.booksList);
+    let editedTitle = this.props.bookCard.title;
+    let titleExist = false;
+    for( let i = 0 ; i < myBooksList.length ; i++){
+      if (myBooksList[i].title == editedTitle && editedTitle != ''){
+        titleExist = true;
+      }
+    }
+    return titleExist;
   }
 
   saveBook() {
-    let myBooksList = Object.assign([],this.props.books.booksList);
-    let thisBook = this.props.bookCard;
-    myBooksList[thisBook.position] = thisBook;
-    this.props.bookSave(myBooksList);
-    this.closeModal();
+    let validation = true;
+    let formDate = new Date(this.props.bookCard.publishedDate);
+    let today = new Date();
+    if(this.props.bookCard.publishedDate == '' || formDate > today){
+      console.log('not a date')
+      this.setState({
+        validDate: false
+      });
+      validation = false;
+    }
+    else{
+      this.setState({
+        validDate: true
+      });
+    }
+    if(this.checkIfTitleExist()){
+      this.setState({
+        titleExist: false
+      });
+      validation = false;
+    }
+    else{
+      this.setState({
+        titleExist: true
+      });
+    }
+    if(!this.allLetter(this.props.bookCard.authorName)){
+      this.setState({
+        validAuthors: false
+      });
+      validation = false;
+    }
+    else{
+      this.setState({
+        validAuthors: true
+      });
+    }
+
+    if(!this.allLetter(this.props.bookCard.title)){
+      this.setState({
+        validTitle: false
+      });
+      validation = false;
+    }
+    else{
+      this.setState({
+        validTitle: true
+      });
+    }
+
+      if(validation){
+        let myBooksList = Object.assign([],this.props.books.booksList);
+        let thisBook = this.props.bookCard;
+        myBooksList[thisBook.position] = thisBook;
+        console.log('myBooksList',myBooksList);
+        this.props.bookSave(myBooksList);
+        this.closeModal();
+      }
+
+
   }
 
   openNestedModal(){
@@ -34,7 +112,28 @@ class BookCardEdit extends Component {
     }
     this.props.bookDelete(myBooksList);
     this.closeNestedModal();
+    this.setState({
+      validTitle: true,
+      validAuthors: true,
+      titleExist: true,
+      validDate: true
+    });
+    this.closeModal();
   }
+
+  allLetter(inputtxt) {
+      if(inputtxt == ''){
+        return false;
+      }
+      let letters = /^[ A-Za-z,.]+$/;
+      if(inputtxt.match(letters)){
+        return true;
+      }
+      else{
+        return false;
+      }
+  }
+
 
   render() {
     const { title, authorName, publishedDate, id, modal, nestedModal } = this.props.bookCard;
@@ -44,11 +143,15 @@ class BookCardEdit extends Component {
           <ModalBody>
             <Form>
               <Label >Title</Label>
-              <Input type="text" onChange={(e) => this.props.bookUpdate({ prop: 'title', value: e.target.value })} placeholder={title}/>
+              <Input type="text" invalid={ !this.state.titleExist || !this.state.validTitle} onChange={(e) => this.props.bookUpdate({ prop: 'title', value: e.target.value })} placeholder='My Awesome Book'/>
+              <FormFeedback valid={this.state.titleExist}>Same book name is already exist!</FormFeedback>
+              <FormFeedback valid={this.state.validTitle}>Only charecthers allowd!</FormFeedback>
               <Label >Author</Label>
-              <Input type="text" onChange={(e) => this.props.bookUpdate({ prop: 'authorName', value: e.target.value })} placeholder={authorName}/>
+              <Input type="text" invalid={!this.state.validAuthors} onChange={(e) => this.props.bookUpdate({ prop: 'authorName', value: e.target.value })} placeholder='Shimoni Lior'/>
+              <FormFeedback valid={this.state.validAuthors}>Only charecthers allowd!</FormFeedback>
               <Label >Published date</Label>
-              <Input valid={true} type="date" onChange={(e) => this.props.bookUpdate({ prop: 'publishedDate', value: e.target.value })} placeholder ={publishedDate}/>
+              <Input type="date" invalid={!this.state.validDate} onChange={(e) => this.props.bookUpdate({ prop: 'publishedDate', value: e.target.value })} />
+              <FormFeedback valid={this.state.validDate}>Please insert valid date!</FormFeedback>
             </Form>
             <Modal isOpen={nestedModal} className={this.props.className}>
               <ModalHeader>Delete book</ModalHeader>
